@@ -122,8 +122,6 @@ namespace SignManager
             var kfcFactoryFile = Environment.CurrentDirectory + "\\KFCFactory.json";
             if (File.Exists(kfcFactoryFile))
             {
-                var i = TxtSignAddress.Text.LastIndexOf(':');
-                var port = (i > 8) ? TxtSignAddress.Text[i++..] : "####";
                 var config = KFCFactoryConfig.Read(kfcFactoryFile) ?? new();
                 foreach (string version in config.Services.Keys)
                 {
@@ -260,6 +258,7 @@ namespace SignManager
                     }
                 }
                 File.Delete(temp);
+                RunCheck();
             }
         }
 
