@@ -1,0 +1,144 @@
+﻿<Window x:Class="SignManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignManager"
+        mc:Ignorable="d" Loaded="Window_Loaded"
+        MinWidth="650" WindowStartupLocation="CenterScreen"
+        Style="{StaticResource WindowDark}"
+        Title="Mirai 签名服务管理器" Height="600" Width="650">
+    <ScrollViewer>
+        <Grid Margin="20,20,10,20" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Top">
+                <Grid Margin="0,0,0,10" Background="#2E2E2E">
+                    <StackPanel Margin="16">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="36" Padding="0,0,0,2">检查</TextBlock>
+                            <Button Grid.Column="1" VerticalAlignment="Top" Padding="10,2,10,2" Margin="0,5,5,0" Click="BtnRefresh">重新检查</Button>
+                        </Grid>
+                        <TextBlock Foreground="#999999" Padding="0,0,0,5">
+                            确认签名服务与配置的版本/端口一致<LineBreak/>
+                            若一致, 配置中的地址将会<Run Foreground="#55B155">绿色</Run>高亮
+                        </TextBlock>
+                        <TextBlock>签名服务 unidbg-fetch-qsign</TextBlock>
+                        <StackPanel Margin="20,0,0,0">
+                            <TextBlock>协议版本: <Run Foreground="#F55762" Name="TxtSignVer">未设置</Run></TextBlock>
+                            <TextBlock>服务地址: <Run Foreground="#F55762" Name="TxtSignAddress">未设置</Run></TextBlock>
+                        </StackPanel>
+                        <TextBlock>fix-protocol-version 签名服务连接配置:</TextBlock>
+                        <ListView x:Name="ListKFCFactoryInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" IsHitTestVisible="False">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="14,0,0,0">
+                                        <TextBlock Visibility="{Binding Error}" Foreground="#F55762" Text="{Binding ErrorMessage}"/>
+                                        <TextBlock Visibility="{Binding Normal}"><Run Foreground="#3C7BB1" Text="{Binding Version}"/> [协议版本]</TextBlock>
+                                        <TextBlock Visibility="{Binding Normal}" Margin="18,0,0,0">服务类型: <Run Foreground="DarkGray" Text="{Binding Type}"/></TextBlock>
+                                        <TextBlock Visibility="{Binding Normal}" Margin="18,0,0,0">服务地址: <Run Foreground="{Binding AddressColor}" Text="{Binding Address}"/></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,0,0,10" Background="#2E2E2E">
+                    <StackPanel Margin="16">
+                        <TextBlock FontSize="36">设置</TextBlock>
+                        <Grid Margin="0,10,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock VerticalAlignment="Center">下载源:</TextBlock>
+                            <ComboBox Grid.Column="2" Name="ComboGithubSource">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Top">
+                <Grid Margin="0,0,0,10" Background="#2E2E2E">
+                    <StackPanel Margin="16">
+                        <TextBlock FontSize="36">签名对接插件</TextBlock>
+                        <TextBlock Padding="0,0,0,10"><Hyperlink NavigateUri="https://github.com/cssxsh/fix-protocol-version" Click="OpenURL">cssxsh/fix-protocol-version</Hyperlink></TextBlock>
+                        <TextBlock Padding="0,0,0,5">已安装版本: <Run Foreground="#F55762" Name="TxtFPVVer">未安装</Run></TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Click="BtnUpdateFPV">安装/更新插件</Button>
+                            <Button Grid.Column="2" Click="BtnKFCFactoryConfig">签名服务连接配置</Button>
+                        </Grid>
+                        <Button Margin="0,5,0,0" Click="BtnUpdateProtocol">下载协议信息</Button>
+                    </StackPanel>
+                </Grid>
+                <Grid Margin="0,0,0,10" Background="#2E2E2E">
+                    <StackPanel Margin="16">
+                        <TextBlock FontSize="36">签名服务</TextBlock>
+                        <TextBlock Padding="0,0,0,10"><Hyperlink NavigateUri="https://github.com/fuqiuluo/unidbg-fetch-qsign" Click="OpenURL">fuqiuluo/unidbg-fetch-qsign</Hyperlink></TextBlock>
+
+                        <Button Click="BtnUpdateQSign">下载/更新签名服务</Button>
+
+                        <TextBlock FontWeight="Bold" Padding="0,10,0,0">签名服务相关配置</TextBlock>
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock VerticalAlignment="Center">选择版本:</TextBlock>
+                            <ComboBox Grid.Column="2" Name="ComboQSignVer" SelectionChanged="ComboQSignVer_SelectionChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                        <Grid x:Name="GridQSignConfigBtn" IsEnabled="false">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Click="BtnGenQSignScripts">生成该版本启动脚本</Button>
+                            <Button Grid.Column="2" Click="BtnQSignConfig">更改该版本配置</Button>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,0,0,10" Background="#2E2E2E">
+                    <StackPanel Margin="16">
+                        <TextBlock FontSize="36" Padding="0,0,0,10">关于</TextBlock>
+                        <TextBlock>开源: <Hyperlink NavigateUri="https://github.com/MrXiaoM/SignManager" Click="OpenURL">MrXiaoM/SignManager @ Github</Hyperlink></TextBlock>
+                        <TextBlock>许可证: <Hyperlink NavigateUri="https://www.gnu.org/licenses/agpl-3.0.html" Click="OpenURL">AGPL-3.0 License</Hyperlink></TextBlock>
+                        <TextBlock Margin="0,10,0,5" FontWeight="Bold">前往「<Run Foreground="#A300EE" Text="爱发电"/>」捐助开发者:</TextBlock>
+                        <TextBlock>
+                        <Hyperlink NavigateUri="https://afdian.net/a/cssxsh" Click="OpenURL">@cssxsh</Hyperlink>, 
+                        
+                        <Hyperlink NavigateUri="https://afdian.net/a/mrxiaom" Click="OpenURL">@MrXiaoM</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

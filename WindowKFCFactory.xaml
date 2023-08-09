@@ -1,0 +1,118 @@
+﻿<Window x:Class="SignManager.WindowKFCFactory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignManager"
+        mc:Ignorable="d"
+        Title="fix-protocol-version 对接服务配置 KFCFactory.json"
+        MinWidth="550" MinHeight="260"
+        Height="260" Width="550"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource WindowDark}"
+        Loaded="Window_Loaded">
+    <Grid Margin="20,12,20,15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left">协议版本对应配置</TextBlock>
+                <Button Grid.Column="2" Padding="10,2,10,2" Click="BtnNew">新建</Button>
+            </Grid>
+            <ListView Grid.Row="2" Name="ListViewServices" Background="Transparent" Foreground="#EAEAEA" SelectionChanged="ListViewServices_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Foreground="#7160E8" FontSize="18" FontWeight="Bold" Text="{Binding Version}"/>
+                            <TextBlock Foreground="#999999" Text="{Binding Type}"/>
+                            <TextBlock Text="{Binding BaseUrl}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Border Grid.Column="2" Padding="10" BorderThickness="1" BorderBrush="#ABADB3">
+            <Grid>
+                <TextBlock x:Name="TxtNotSelect" Visibility="Visible"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#999999">从左侧选择一个版本来配置</TextBlock>
+                <Grid x:Name="GridSelectConfig" Visibility="Hidden">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="32" VerticalAlignment="Bottom" Name="TxtTitle"/>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Grid.Row="0" Padding="10,2,10,2" Click="BtnCopy">复制到...</Button>
+                                <Button Grid.Column="2" Grid.Row="0" Padding="10,2,10,2" Click="BtnDelete">删除</Button>
+                            </Grid>
+                            <Button Grid.Row="2" Padding="10,2,10,2" Click="BtnSave">保存</Button>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="10*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="5"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">签名服务类型:</TextBlock>
+                        <ComboBox Grid.Column="2" Grid.Row="0" Name="ComboType" SelectionChanged="ComboType_SelectionChanged">
+                            <ComboBoxItem Content="unidbg-fetch-qsign"/>
+                            <ComboBoxItem Content="magic-signer"/>
+                            <ComboBoxItem Content="TLV544Provider (8.8.xx)"/>
+                        </ComboBox>
+                        
+                        <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Name="TxtBaseUrlInfo">服务地址:</TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="2" Name="TxtBaseUrl"/>
+
+                        <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Name="TxtKeyInfo">[U]连接密钥:</TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="4" Name="TxtKey"/>
+                        <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Name="TxtServerIdKeyInfo">[M]服务端身份密钥:</TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="4" Name="TxtServerIdKey"/>
+                        <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Name="TxtAuthKeyInfo">[M]客户端验证密钥:</TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="6" Name="TxtAuthKey"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
