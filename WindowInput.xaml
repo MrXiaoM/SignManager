@@ -1,0 +1,17 @@
+﻿<Window x:Class="SignManager.WindowInput"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignManager"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        Style="{StaticResource WindowDark}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock x:Name="TxtInfo"/>
+            <TextBox x:Name="TxtValue" MinWidth="200" Margin="0,10,0,0"/>
+            <Button x:Name="BtnConfirm" Padding="20,2,20,2" HorizontalAlignment="Right" Margin="0,10,0,0" Click="BtnConfirm_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
