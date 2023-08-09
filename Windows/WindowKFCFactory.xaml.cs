@@ -32,7 +32,7 @@ namespace SignManager
         public WindowKFCFactory()
         {
             InitializeComponent();
-            config = File.Exists(configFile) ? KFCFactoryConfig.Read(configFile) : new();
+            config = KFCFactoryConfig.Read(configFile) ?? new();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

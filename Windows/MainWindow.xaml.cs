@@ -124,7 +124,7 @@ namespace SignManager
             {
                 var i = TxtSignAddress.Text.LastIndexOf(':');
                 var port = (i > 8) ? TxtSignAddress.Text[i++..] : "####";
-                var config = KFCFactoryConfig.Read(kfcFactoryFile);
+                var config = KFCFactoryConfig.Read(kfcFactoryFile) ?? new();
                 foreach (string version in config.Services.Keys)
                 {
                     var service = config.Services[version];

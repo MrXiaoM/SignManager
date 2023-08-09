@@ -44,7 +44,7 @@ namespace SignManager
 
     public class KFCFactoryConfig
     {
-        public Dictionary<string, EncryptService> Services;
+        public Dictionary<string, EncryptService> Services = new();
         public class EncryptService
         {
             public string Type { get; set; }
@@ -92,44 +92,48 @@ namespace SignManager
                 };
             }
         }
-        public static KFCFactoryConfig Read(string file)
+        public static KFCFactoryConfig? Read(string file)
         {
-            var json = JsonDocument.FromString(File.ReadAllText(file)).Object;
-            var dict = new Dictionary<string, EncryptService>();
-            foreach (string version in json.Keys)
+            try
             {
-                var obj = json[version].ToObject();
-                string type = obj["type"].ToString();
-                if (type == "fuqiuluo/unidbg-fetch-qsign" || type == "fuqiuluo" || type == "unidbg-fetch-qsign")
+                var json = JsonDocument.FromString(File.ReadAllText(file)).Object;
+                var dict = new Dictionary<string, EncryptService>();
+                foreach (string version in json.Keys)
                 {
-                    dict.Add(version, new UnidbgFetchQSign()
+                    var obj = json[version].ToObject();
+                    string type = obj["type"].ToString();
+                    if (type == "fuqiuluo/unidbg-fetch-qsign" || type == "fuqiuluo" || type == "unidbg-fetch-qsign")
                     {
-                        BaseURL = obj["base_url"].ToString(),
-                        Key = obj["key"].ToString()
-                    });
+                        dict.Add(version, new UnidbgFetchQSign()
+                        {
+                            BaseURL = obj["base_url"].ToString(),
+                            Key = obj["key"].ToString()
+                        });
+                    }
+                    else if (type == "kiliokuara/magic-signer-guide" || type == "kiliokuara" || type == "magic-signer-guide" || type == "vivo50")
+                    {
+                        dict.Add(version, new MagicSignerGuide()
+                        {
+                            BaseURL = obj["base_url"].ToString(),
+                            ServerIdentityKey = obj["serverIdentityKey"].ToString(),
+                            AuthorizationKey = obj["authorizationKey"].ToString()
+                        });
+                    }
+                    else
+                    {
+                        dict.Add(version, new()
+                        {
+                            Type = type,
+                            BaseURL = ""
+                        });
+                    }
                 }
-                else if (type == "kiliokuara/magic-signer-guide" || type == "kiliokuara" || type == "magic-signer-guide" || type == "vivo50")
+                return new()
                 {
-                    dict.Add(version, new MagicSignerGuide()
-                    {
-                        BaseURL = obj["base_url"].ToString(),
-                        ServerIdentityKey = obj["serverIdentityKey"].ToString(),
-                        AuthorizationKey = obj["authorizationKey"].ToString()
-                    });
-                }
-                else
-                {
-                    dict.Add(version, new()
-                    {
-                        Type = type,
-                        BaseURL = ""
-                    });
-                }
-            }
-            return new()
-            {
-                Services = dict
-            };
+                    Services = dict
+                };
+            } catch { }
+            return null;
         }
         public void Write(string file)
         {
