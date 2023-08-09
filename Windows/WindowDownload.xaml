@@ -59,7 +59,7 @@
                     <TextBlock Name="DownloadName" Grid.Column="0" Foreground="#DDDDDD"></TextBlock>
                     <TextBlock Name="DownloadProcess" Grid.Column="1" Foreground="#DDDDDD">正在获取下载信息</TextBlock>
                 </Grid>
-                <ProgressBar Name="DownloadProcessBar" Height="12" Maximum="10000" Background="#4D4D4D" Foreground="#55B155" Value="4000"/>
+                <ProgressBar Name="DownloadProcessBar" Height="12" Maximum="10000" Background="#4D4D4D" Foreground="#55B155"/>
             </StackPanel>
         </Grid>
     </Grid>
