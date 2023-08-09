@@ -65,6 +65,7 @@ namespace SignManager
             ComboGithubSource.ItemsSource = githubSources;
             ComboGithubSource.SelectedIndex = 1;
             RunCheck();
+            Activate();
         }
 
         private void RunCheck()

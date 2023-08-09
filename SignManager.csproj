@@ -12,6 +12,7 @@
     <Authors>MrXiaoM</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Description>安装与管理适用于 mirai 的签名服务</Description>
   </PropertyGroup>
 
   <ItemGroup>

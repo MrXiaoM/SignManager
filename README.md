@@ -8,6 +8,8 @@ mirai 签名服务管理器/安装器。
 
 欲运行本程序，需要安装 [.NET Core 6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)。
 
+本程序不支持 32 位操作系统，请使用 Windows 7 或以上的 64 位操作系统。
+
 # 引用项目
 
 - [mamoe/mirai](https://github.com/mamoe/mirai)
