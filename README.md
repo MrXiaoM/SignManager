@@ -10,6 +10,8 @@ mirai 签名服务管理器/安装器。
 
 本程序不支持 32 位操作系统，请使用 Windows 7 或以上的 64 位操作系统。
 
+将本程序放入 mirai 所在目录并打开，即可安装并配置签名服务。
+
 # 引用项目
 
 - [mamoe/mirai](https://github.com/mamoe/mirai)
