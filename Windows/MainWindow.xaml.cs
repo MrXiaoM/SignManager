@@ -315,6 +315,13 @@ java -cp unidbg-fetch-qsign/lib/* MainKt --basePath=unidbg-fetch-qsign/txlib/$TX
             }
         }
 
+        private void BtnCheckGithubSource(object sender, RoutedEventArgs e)
+        {
+            var url = githubSources[ComboGithubSource.SelectedIndex].UrlPrefix;
+            if (url.Length == 0) url = "https://github.com/";
+            App.OpenURL(url);
+        }
+        
         private void ComboQSignVer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GridQSignConfigBtn.IsEnabled = ComboQSignVer.SelectedIndex >= 0;
