@@ -11,6 +11,9 @@ SignManager 是适用于 [mirai](https://github.com/mamoe/mirai) 平台的签名
 
 </div>
 
+> 本程序用于配置 [cssxsh/fix-protocol-version](https://github.com/cssxsh/fix-protocol-version) 对接的签名服务。  
+> 如果你想使用**即装即用**的内嵌签名服务，另请参见 [MrXiaoM/qsign](https://github.com/MrXiaoM/qsign)
+
 # 使用方法
 
 本软件仅支持在 Windows 下运行，你可以在 Windows 下配置好签名服务再迁移至其他系统使用。
