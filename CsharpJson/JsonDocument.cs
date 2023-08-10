@@ -201,7 +201,7 @@ namespace CsharpJson
                 case JsonEncoding.Unicode:
                     return FromString(Encoding.Unicode.GetString(json));
                 case JsonEncoding.UTF8:
-                    return FromString(Encoding.UTF8.GetString(json));
+                    return FromString(new UTF8Encoding(false).GetString(json));
                 case JsonEncoding.UTF32:
                     return FromString(Encoding.UTF32.GetString(json));
                 case JsonEncoding.BigEndianUnicode:
@@ -258,7 +258,7 @@ namespace CsharpJson
                 case JsonEncoding.Unicode:
                     return Encoding.Unicode.GetBytes(jsonstr);
                 case JsonEncoding.UTF8:
-                    return Encoding.UTF8.GetBytes(jsonstr);
+                    return new UTF8Encoding(false).GetBytes(jsonstr);
                 case JsonEncoding.UTF32:
                     return Encoding.UTF32.GetBytes(jsonstr);
                 case JsonEncoding.BigEndianUnicode:

@@ -170,7 +170,7 @@ namespace SignManager
 
             var doc = new JsonDocument();
             doc.Object = json;
-            File.WriteAllText(file, doc.ToJson(), Encoding.UTF8);
+            File.WriteAllText(file, doc.ToJson(), new UTF8Encoding(false));
         }
     }
 
@@ -253,7 +253,7 @@ namespace SignManager
             obj["black_list"] = blackList;
 
             doc.Object = obj;
-            File.WriteAllText(file, doc.ToJson(), Encoding.UTF8);
+            File.WriteAllText(file, doc.ToJson(), new UTF8Encoding(false));
         }
     }
 
