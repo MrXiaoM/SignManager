@@ -50,8 +50,13 @@ namespace SignManager
         internal static List<GithubSource> githubSources = new()
         {
             new() { Name = "源站 github.com" },
-            new() { Name = "github.moeyy.cn", UrlPrefix = "https://github.moeyy.cn/" },
-            new() { Name = "ghproxy.com", UrlPrefix = "https://ghproxy.com/" },
+            new() { Name = "镜像 github.moeyy.cn", UrlPrefix = "https://github.moeyy.cn/" },
+            new() { Name = "镜像 ghproxy.com", UrlPrefix = "https://ghproxy.com/" },
+            new() { Name = "镜像 ghproxy.homeboyc.cn", UrlPrefix = "https://ghproxy.homeboyc.cn/" },
+            new() { Name = "镜像 ghps.cc", UrlPrefix = "https://ghps.cc/" },
+            new() { Name = "镜像 hub.gitmirror.com", UrlPrefix = "https://hub.gitmirror.com/" },
+            new() { Name = "镜像 gh.ddlc.top", UrlPrefix = "https://gh.ddlc.top/" },
+            new() { Name = "镜像 ghproxy.net", UrlPrefix = "https://ghproxy.net/" },
         };
 
         public MainWindow()
