@@ -175,7 +175,7 @@ namespace SignManager
         {
             if (sender is Hyperlink hyperlink)
             {
-                Process.Start("explorer.exe", hyperlink.NavigateUri.ToString());
+                App.OpenURL(hyperlink.NavigateUri.ToString());
             }
         }
 

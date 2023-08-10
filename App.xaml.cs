@@ -17,6 +17,11 @@ namespace SignManager
     /// </summary>
     public partial class App : Application
     {
+        public static void OpenURL(string url)
+        {
+            if (!url.StartsWith("http://") && !url.StartsWith("https://") && !url.StartsWith("ftp://")) return;
+            System.Diagnostics.Process.Start("explorer.exe", url);
+        }
         public static bool ContainsUnallowedCharater(string s)
         {
             return s.Contains("\\") || s.Contains("/") || s.Contains(":")

@@ -45,7 +45,7 @@ namespace SignManager
         {
             if (sender is Button btn)
             {
-                Process.Start("explorer.exe", $"https://github.com/{owner}/{repo}/releases/tag/{btn.Tag}");
+                App.OpenURL($"https://github.com/{owner}/{repo}/releases/tag/{btn.Tag}");
             }
         }
         private async void BtnDownload(object sender, RoutedEventArgs e)
