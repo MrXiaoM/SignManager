@@ -24,9 +24,9 @@
                 </Grid.ColumnDefinitions>
                 <Button Name="BtnRefresh" Padding="10,2,10,2" Click="BtnUpdateList">刷新版本列表</Button>
             </Grid>
-            <ListView x:Name="ListVersion" Grid.Row="2">
+            <ListView x:Name="ListVersion" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
-                    <GridView>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource GridViewHeaderDark}">
                         <GridViewColumn Header="版本" Width="60" DisplayMemberBinding="{Binding Path=ReleaseTag}"/>
                         <GridViewColumn Header="发布时间" Width="180" DisplayMemberBinding="{Binding Path=ReleaseTime}"/>
                         <GridViewColumn Header="更新内容" Width="80">

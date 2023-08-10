@@ -297,15 +297,99 @@
         <Style x:Key="CheckBoxDark" TargetType="CheckBox">
             <Setter Property="Foreground" Value="#EAEAEA"/>
         </Style>
+
+        <Style x:Key="ListViewDark" TargetType="{x:Type ListView}">
+            <Setter Property="Background" Value="#1A1A1A"/>
+            <Setter Property="Foreground" Value="#EAEAEA"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+            <Style.Triggers>
+                <Trigger Property="ItemTemplate" Value="{x:Null}">
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="#EAEAEA"/>
+                                <Setter Property="Padding" Value="2,1,2,1"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                                <Grid>
+                                                    <GridViewRowPresenter x:Name="gridrowPresenter" Content="{TemplateBinding Property=ContentControl.Content}" />
+                                                    <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Property=ContentControl.Content}"  Visibility="Collapsed" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
+                                                    <Setter TargetName="contentPresenter" Property="Visibility" Value="Visible"/>
+                                                </Trigger>
+
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                        <Setter Property="Effect" Value="{x:Null}"/>
+                                        <Setter Property="Background" Value="#1E1E1E"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                            <Condition Property="IsSelected" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                        <Setter Property="Background" Value="#1E1E1E"/>
+                                    </MultiTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="GridViewHeaderDark" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background" Value="#4D4D4D"/>
+            <Setter Property="Foreground" Value="#EAEAEA"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Border Margin="0,0,0,5" BorderThickness="0,0,0,0.5" BorderBrush="#EAEAEA">
+                            <ContentPresenter Margin="7,5,0,4" x:Name="contentPresenter" Focusable="False" HorizontalAlignment="Left" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#1E1E1E"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="#1E1E1E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="WindowDark" TargetType="Window">
             <Setter Property="Background" Value="#1E1E1E"/>
             <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Style.Resources>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
+                <Style TargetType="{x:Type ScrollViewer}">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonDark}"/>
                 <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxDark}"/>
                 <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxDark}"/>
                 <Style TargetType="{x:Type Hyperlink}" BasedOn="{StaticResource HyperlinkDark}"/>
                 <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxDark}"/>
+                <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource ListViewDark}"/>
+                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource GridViewHeaderDark}"/>
             </Style.Resources>
         </Style>
     </Application.Resources>
