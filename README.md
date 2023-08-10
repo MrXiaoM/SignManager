@@ -18,7 +18,7 @@ SignManager 是适用于 [mirai](https://github.com/mamoe/mirai) 平台的签名
 
 本软件仅支持在 Windows 下运行，你可以在 Windows 下配置好签名服务再迁移至其他系统使用。
 
-欲运行本程序，需要安装 [.NET Core 6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)。
+欲运行本程序，需要安装 [.NET Core 6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0) 桌面运行时环境。
 
 本程序不支持 32 位操作系统，请使用 Windows 7 或以上的 64 位操作系统。
 
