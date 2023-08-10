@@ -22,7 +22,7 @@ SignManager 是适用于 [mirai](https://github.com/mamoe/mirai) 平台的签名
 
 本程序不支持 32 位操作系统，请使用 Windows 7 或以上的 64 位操作系统。
 
-到 [Releases](https://github.com/MrXiaoM/SignManager/releases) 下载 `SignManager-x.x.x.x-win-x64.exe`，放入 mirai 所在目录并打开，即可安装并配置签名服务。
+到 [Releases](https://github.com/MrXiaoM/SignManager/releases) 下载 `SignManager-x.x.x-win-x64.exe`，放入 mirai 所在目录并打开，即可安装并配置签名服务。
 
 详细使用教程正在编写，敬请期待。
 

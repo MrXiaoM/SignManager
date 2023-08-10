@@ -21,7 +21,9 @@ namespace SignManager
         {
             get
             {
-                return ResourceAssembly.GetName().Version?.ToString() ?? "UNKNOWN";
+                var ver = ResourceAssembly.GetName().Version?.ToString() ?? "UNKNOWN";
+                if (ver.EndsWith(".0")) ver = ver.Substring(0, ver.Length - 2);
+                return ver;
             }
         }
         public static void OpenURL(string url)
