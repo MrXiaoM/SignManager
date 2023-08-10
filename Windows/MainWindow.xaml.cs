@@ -149,7 +149,6 @@ namespace SignManager
                 string s = File.ReadAllLines(scriptShell.FullName, Encoding.UTF8)[1];
                 scriptVersion = s.Substring(s.IndexOf('=') + 1);
             }
-            int tempPort = -1;
             UnidbgFetchQSignConfig? configQSign = null;
             if (scriptVersion.Length == 0)
             {
@@ -170,7 +169,6 @@ namespace SignManager
                 {
                     TxtSignAddress.Foreground = brushNormal;
                     TxtSignAddress.Text = $"http://{configQSign.Host}:{configQSign.Port}";
-                    tempPort = configQSign.Port;
 
                     StatusUnidbgFetchQSign.Foreground = brushNormal;
                 }
@@ -179,6 +177,7 @@ namespace SignManager
             var kfcFactoryFile = Environment.CurrentDirectory + "\\KFCFactory.json";
             if (File.Exists(kfcFactoryFile))
             {
+                var address = TxtSignAddress.Text.Replace("0.0.0.0", "127.0.0.1");
                 var config = KFCFactoryConfig.Read(kfcFactoryFile) ?? new();
                 foreach (string version in config.Services.Keys)
                 {
@@ -193,9 +192,9 @@ namespace SignManager
                         Type = type,
                         Address = service.BaseURL.Length > 0 ? service.BaseURL : "(无)"
                     };
-                    if (type == "unidbg-fetch-qsign" && tempPort > 0 
+                    if (type == "unidbg-fetch-qsign"
                         && info.Version == TxtSignVer.Text
-                        && info.Address.EndsWith($":{tempPort}"))
+                        && info.Address == address)
                     {
                         info.AddressColor = brushNormal;
                         if (fpvInstalled) StatusFixProtocolVersion.Foreground = brushNormal;
