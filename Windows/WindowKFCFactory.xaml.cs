@@ -51,7 +51,8 @@ namespace SignManager
             }
             ListViewServices.ItemsSource = items;
 
-            List<DirectoryInfo> dirs = MainWindow.txlibDir.Exists ? new(MainWindow.txlibDir.GetDirectories("*.*.*")) : new();
+            var txlib = MainWindow.txlibDir;
+            List<DirectoryInfo> dirs = txlib.Exists ? new(txlib.GetDirectories("*.*.*")) : new();
             List<string> txlibVersions = new List<string>();
             foreach (var dir in dirs) txlibVersions.Add(dir.Name);
             ComboQSignVer.ItemsSource = txlibVersions;

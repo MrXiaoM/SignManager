@@ -80,11 +80,11 @@ namespace SignManager
             }
         }
 
-        internal static FileInfo scriptCmd = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.cmd");
-        internal static FileInfo scriptShell = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.sh");
-        internal static DirectoryInfo pluginsDir = new(Environment.CurrentDirectory + "\\plugins");
-        internal static DirectoryInfo qsignDir = new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign");
-        internal static DirectoryInfo txlibDir = new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign\\txlib");
+        internal static FileInfo scriptCmd { get { return new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.cmd"); } }
+        internal static FileInfo scriptShell { get { return new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.sh"); } }
+        internal static DirectoryInfo pluginsDir { get { return new(Environment.CurrentDirectory + "\\plugins"); } }
+        internal static DirectoryInfo qsignDir { get { return new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign"); } }
+        internal static DirectoryInfo txlibDir { get { return new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign\\txlib"); } }
         internal static Brush brushNormal = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#55B155"));
         internal static Brush brushWarn = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4A0"));
         internal static Brush brushError = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#F55762"));
@@ -118,6 +118,8 @@ namespace SignManager
 
         private void RunCheck()
         {
+            var txlib = txlibDir;
+
             StatusUnidbgFetchQSign.Foreground = brushError;
             StatusFixProtocolVersion.Foreground = brushError;
             StatusProtocolInfo.Foreground = brushError;
@@ -160,7 +162,7 @@ namespace SignManager
             {
                 TxtSignVer.Foreground = brushNormal;
                 TxtSignVer.Text = scriptVersion;
-                configQSign = UnidbgFetchQSignConfig.Read(txlibDir.FullName + "\\" + scriptVersion + "\\config.json");
+                configQSign = UnidbgFetchQSignConfig.Read(txlib.FullName + "\\" + scriptVersion + "\\config.json");
                 if (configQSign == null)
                 {
                     TxtSignAddress.Foreground = brushError;
@@ -239,7 +241,7 @@ namespace SignManager
                     StatusProtocolInfo.Foreground = brushWarn;
                 }
             }
-            List<DirectoryInfo> txlibVersions = txlibDir.Exists ? new (txlibDir.GetDirectories("*.*.*")) : new();
+            List<DirectoryInfo> txlibVersions = txlib.Exists ? new (txlib.GetDirectories("*.*.*")) : new();
             ComboQSignVer.ItemsSource = txlibVersions;
             ComboQSignVer.SelectedIndex = txlibVersions.Count > 0 ? 0 : -1;
         }
