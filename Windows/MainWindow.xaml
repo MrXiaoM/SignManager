@@ -7,7 +7,7 @@
         mc:Ignorable="d" Loaded="Window_Loaded"
         MinWidth="650" WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowDark}"
-        Title="Mirai 签名服务管理器" Height="600" Width="650">
+        Title="Mirai 签名服务管理器" Height="600" Width="650" Icon="pack://application:,,,/window_icon.png">
     <ScrollViewer>
         <Grid Margin="20,20,10,20" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>

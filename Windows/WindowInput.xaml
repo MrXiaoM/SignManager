@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SignManager"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
-        Style="{StaticResource WindowDark}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Style="{StaticResource WindowDark}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="pack://application:,,,/window_icon.png">
     <Grid Margin="20">
         <StackPanel>
             <TextBlock x:Name="TxtInfo"/>

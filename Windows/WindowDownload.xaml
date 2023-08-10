@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         MinWidth="450" MinHeight="260"
         Style="{StaticResource WindowDark}"
-        Title="下载/更新" Height="260" Width="450">
+        Title="下载/更新" Height="260" Width="450" Icon="pack://application:,,,/window_icon.png">
     <Grid>
         <Grid Margin="10">
             <Grid.RowDefinitions>

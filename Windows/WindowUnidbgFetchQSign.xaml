@@ -8,7 +8,7 @@
         Style="{StaticResource WindowDark}"
         WindowStartupLocation="CenterScreen"
         MinWidth="630" MinHeight="240" Loaded="Window_Loaded" ResizeMode="NoResize"
-        Title="unidbg-fetch-qsign 签名服务设置 " Height="240" Width="630">
+        Title="unidbg-fetch-qsign 签名服务设置 " Height="240" Width="630" Icon="pack://application:,,,/window_icon.png">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*"/>

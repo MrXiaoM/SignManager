@@ -10,7 +10,7 @@
         Height="260" Width="550"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowDark}"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded" Icon="pack://application:,,,/window_icon.png">
     <Grid Margin="20,12,20,15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
