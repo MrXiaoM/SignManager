@@ -17,6 +17,13 @@ namespace SignManager
     /// </summary>
     public partial class App : Application
     {
+        public static string Version
+        {
+            get
+            {
+                return ResourceAssembly.GetName().Version?.ToString() ?? "UNKNOWN";
+            }
+        }
         public static void OpenURL(string url)
         {
             if (!url.StartsWith("http://") && !url.StartsWith("https://") && !url.StartsWith("ftp://")) return;

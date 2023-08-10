@@ -107,6 +107,7 @@ namespace SignManager
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Title += " " + App.Version;
             if (!pluginsDir.Exists) pluginsDir.Create();
             if (!qsignDir.Exists) qsignDir.Create();
             ComboGithubSource.ItemsSource = githubSources;
@@ -302,6 +303,7 @@ namespace SignManager
                     file.Delete();
                 }
                 File.WriteAllBytes(Environment.CurrentDirectory + "\\plugins\\" + download.name, download.bytes);
+                RunCheck();
                 MessageBox.Show("fix-protocol-version " + download.tag + " 安装完成");
             }
             else if (download.abort)
@@ -316,7 +318,7 @@ namespace SignManager
         }
         private void BtnUpdateProtocol(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("TODO");
+            MessageBox.Show("制作中，敬请期待");
         }
         private async void BtnUpdateQSign(object sender, RoutedEventArgs e)
         {
