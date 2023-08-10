@@ -27,8 +27,9 @@
                             <Button Grid.Column="1" VerticalAlignment="Top" Padding="10,2,10,2" Margin="0,5,5,0" Click="BtnRefresh">重新检查</Button>
                         </Grid>
                         <TextBlock Foreground="#999999" Padding="0,0,0,5">
-                            确认签名服务与配置的版本/端口一致<LineBreak/>
-                            若一致, 配置中的地址将会<Run Foreground="#55B155">绿色</Run>高亮
+                            确认签名服务与配置的版本/端口是否一致。<LineBreak/>
+                            确认协议版本是否有对应的协议。<LineBreak/>
+                            若一致, 相关配置项将会<Run Foreground="#55B155">绿色</Run>高亮
                         </TextBlock>
                         <TextBlock>签名服务 unidbg-fetch-qsign</TextBlock>
                         <StackPanel Margin="20,0,0,0">
@@ -36,7 +37,7 @@
                             <TextBlock>服务地址: <Run Foreground="#F55762" Name="TxtSignAddress">未设置</Run></TextBlock>
                         </StackPanel>
                         <TextBlock>fix-protocol-version 签名服务连接配置:</TextBlock>
-                        <ListView x:Name="ListKFCFactoryInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" IsHitTestVisible="False">
+                        <ListView x:Name="ListKFCFactoryInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" d:ItemsSource="{d:SampleData ItemCount=1}" IsHitTestVisible="False">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="14,0,0,0">
@@ -44,6 +45,19 @@
                                         <TextBlock Visibility="{Binding Normal}"><Run Foreground="#3C7BB1" Text="{Binding Version}"/> [协议版本]</TextBlock>
                                         <TextBlock Visibility="{Binding Normal}" Margin="18,0,0,0">服务类型: <Run Foreground="DarkGray" Text="{Binding Type}"/></TextBlock>
                                         <TextBlock Visibility="{Binding Normal}" Margin="18,0,0,0">服务地址: <Run Foreground="{Binding AddressColor}" Text="{Binding Address}"/></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <TextBlock>协议对应版本:</TextBlock>
+                        <ListView x:Name="ListProtocolInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" d:ItemsSource="{d:SampleData ItemCount=2}" IsHitTestVisible="False">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="14,0,0,0">
+                                        <TextBlock Visibility="{Binding Error}" Foreground="#F55762" Text="{Binding ErrorMessage}"/>
+                                        <TextBlock Visibility="{Binding Normal}" Foreground="#3C7BB1" Text="{Binding Protocol}"/>
+                                        <TextBlock Visibility="{Binding Normal}" Margin="18,0,0,0">协议版本: <Run Foreground="{Binding VersionColor}" Text="{Binding Version}"/></TextBlock>
+                                        <TextBlock Visibility="{Binding Normal}" Margin="18,0,0,0">构建时间: <Run Foreground="DarkGray" Text="{Binding Time}"/></TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

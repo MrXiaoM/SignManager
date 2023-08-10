@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using CsharpJson;
 
 namespace SignManager
 {
@@ -37,6 +38,52 @@ namespace SignManager
             public string Type { get; set; } = "";
             public string Address { get; set; } = "";
             public Brush AddressColor { get; set; } = brushWarn;
+        }
+        public class ProtocolInfo
+        {
+            public Visibility Error { get; set; } = Visibility.Collapsed;
+            public Visibility Normal { get; set; } = Visibility.Collapsed;
+            public string ErrorMessage { get; set; } = "";
+            public string Protocol { get; set; } = "";
+            public string Version { get; set; } = "";
+            public Brush VersionColor { get; set; } = brushError;
+            public string Time { get; set; } = "";
+
+            public static ProtocolInfo? FromJson(string protocol, JsonObject? obj, string highlineVersion)
+            {
+                if (obj == null) return null;
+                try
+                {
+                    var split = highlineVersion.Split(',', 2);
+                    string ver = obj["sort_version_name"].ToString();
+                    string qua = obj.ContainsKey("qua") ? obj["qua"].ToString() : "";
+                    var time = DateTime.SpecifyKind(new DateTime(1970, 1, 1, 0, 0, 0, 0), DateTimeKind.Local)
+                        .AddSeconds(obj["build_time"].ToLong()).ToString("yyyy年MM月dd日 HH:mm:ss");
+                    var info = new ProtocolInfo()
+                    {
+                        Normal = Visibility.Visible,
+                        Protocol = protocol,
+                        Version = ver,
+                        Time = time
+                    };
+                    if (ver.StartsWith(split[0]))
+                    {
+                        if (qua.Length == 0 || qua.Equals(split[1]))
+                        {
+                            info.VersionColor = brushNormal;
+                        }
+                        else 
+                        {
+                            info.VersionColor = brushWarn;
+                        }
+                    }
+                    return info;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
         }
 
         internal static FileInfo scriptCmd = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.cmd");
@@ -102,6 +149,7 @@ namespace SignManager
                 scriptVersion = s.Substring(s.IndexOf('=') + 1);
             }
             int tempPort = -1;
+            UnidbgFetchQSignConfig? configQSign = null;
             if (scriptVersion.Length == 0)
             {
                 TxtSignVer.Foreground = TxtSignAddress.Foreground = brushError;
@@ -111,8 +159,8 @@ namespace SignManager
             {
                 TxtSignVer.Foreground = brushNormal;
                 TxtSignVer.Text = scriptVersion;
-                var config = UnidbgFetchQSignConfig.Read(txlibDir.FullName + "\\" + scriptVersion + "\\config.json");
-                if (config == null)
+                configQSign = UnidbgFetchQSignConfig.Read(txlibDir.FullName + "\\" + scriptVersion + "\\config.json");
+                if (configQSign == null)
                 {
                     TxtSignAddress.Foreground = brushError;
                     TxtSignAddress.Text = "未找到配置";
@@ -120,8 +168,8 @@ namespace SignManager
                 else
                 {
                     TxtSignAddress.Foreground = brushNormal;
-                    TxtSignAddress.Text = $"http://{config.Host}:{config.Port}";
-                    tempPort = config.Port;
+                    TxtSignAddress.Text = $"http://{configQSign.Host}:{configQSign.Port}";
+                    tempPort = configQSign.Port;
                 }
             }
             List<KFCFactoryInfo> kfcFactory = new();
@@ -157,9 +205,36 @@ namespace SignManager
             }
             ListKFCFactoryInfo.ItemsSource = kfcFactory;
 
+            string qsignVer = configQSign != null ? configQSign.Version : "";
+            string qua = configQSign != null ? configQSign.QUA : "";
+            List<ProtocolInfo> protocols = new();
+            var pPHONE = getProtocolVersion("ANDROID_PHONE", qsignVer + "," + qua);
+            var pPAD = getProtocolVersion("ANDROID_PAD", qsignVer + "," + qua);
+            if (pPHONE != null) protocols.Add(pPHONE);
+            if (pPAD != null) protocols.Add(pPAD);
+            if (protocols.Count == 0)
+            {
+                protocols.Add(new() { Error = Visibility.Visible, ErrorMessage = "未找到配置" });
+            }
+            ListProtocolInfo.ItemsSource = protocols;
+
             List<DirectoryInfo> txlibVersions = txlibDir.Exists ? new (txlibDir.GetDirectories("*.*.*")) : new();
             ComboQSignVer.ItemsSource = txlibVersions;
             ComboQSignVer.SelectedIndex = txlibVersions.Count > 0 ? 0 : -1;
+        }
+
+        private ProtocolInfo? getProtocolVersion(string protocol, string highlineVersion)
+        {
+            try
+            {
+                var content = File.ReadAllText(Environment.CurrentDirectory + "\\" + protocol + ".json");
+                var json = JsonDocument.FromString(content).Object;
+                return ProtocolInfo.FromJson(protocol, json, highlineVersion);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private string ProcessAssetURL(string download)
