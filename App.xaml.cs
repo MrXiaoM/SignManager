@@ -247,17 +247,23 @@ namespace SignManager
 
     public static class HttpClientExt
     {
-        public static async Task<bool> GetByteArrayAsync(this HttpClient httpClient, string url, Action<byte[]> success, Action<HttpRequestException> fail)
+        public static async Task<bool> GetByteArrayAsync(this HttpClient httpClient, string url, Action<byte[]> success, Action<HttpRequestException> fail, CancellationToken? cancellationToken = null)
         {
             try
             {
-                byte[] bytes = await httpClient.GetByteArrayAsync(url);
+                byte[] bytes;
+                if (cancellationToken == null) bytes = await httpClient.GetByteArrayAsync(url);
+                else bytes = await httpClient.GetByteArrayAsync(url, (CancellationToken)cancellationToken);
                 success(bytes);
                 return true;
             }
             catch (HttpRequestException e)
             {
                 fail(e);
+                return false;
+            }
+            catch (TaskCanceledException)
+            {
                 return false;
             }
         }

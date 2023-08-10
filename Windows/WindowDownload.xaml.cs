@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http;
 using System.Net.Http.Handlers;
+using System.Threading;
 
 namespace SignManager
 {
@@ -27,7 +28,9 @@ namespace SignManager
         Func<string, string> processUrl;
         public bool abort = false;
         public string name = "";
+        public string tag = "";
         public byte[]? bytes = null;
+        CancellationTokenSource cts = new CancellationTokenSource();
         public WindowDownload(string owner, string repo, string title, Predicate<Asset> assetPredicate, Func<string, string> processUrl)
         {
             InitializeComponent();
@@ -42,14 +45,18 @@ namespace SignManager
         {
             if (sender is Button btn)
             {
-                Process.Start("explorer.exe", "https://github.com/cssxsh/fix-protocol-version/releases/tag/" + btn.Tag.ToString());
+                Process.Start("explorer.exe", $"https://github.com/{owner}/{repo}/releases/tag/{btn.Tag}");
             }
         }
         private async void BtnDownload(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
             {
-                string url = processUrl.Invoke((string)btn.Tag);
+                btn.IsEnabled = false;
+                var split = ((string)btn.Tag).Split('|', 2);
+                tag = split[0];
+                DownloadTitle.Text += tag;
+                string url = processUrl.Invoke(split[1]);
                 name = url.Substring(url.LastIndexOf('/') + 1);
                 DownloadName.Text = name;
                 ListVersion.IsEnabled = BtnRefresh.IsEnabled = false;
@@ -68,14 +75,23 @@ namespace SignManager
                     DownloadProcessBar.Value = received / (total ?? received) * 10000;
                     DownloadProcess.Text = FormatSize(received) + (total == null ? "" : (" / " + FormatSize(total))) + percent;
                 });
-                DialogResult = await httpClient.GetByteArrayAsync(url,
+                var token = cts.Token;
+                token.Register(() => abort = true);
+                bool success = await httpClient.GetByteArrayAsync(url,
                     bytes => this.bytes = bytes,
-                    ex => MessageBox.Show(name + " 下载失败!\n" + url + "\n" + ex.ToString(), "下载错误")
+                    ex => MessageBox.Show(name + " 下载失败!\n" + url + "\n" + ex.ToString(), "下载错误"),
+                    token
                 );
+                if (success) DialogResult = true;
 
                 DownloadProcess.Text = "下载完成";
                 Close();
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            cts.Cancel();
         }
         private async void BtnUpdateList(object sender, RoutedEventArgs e)
         {
@@ -100,7 +116,7 @@ namespace SignManager
                 {
                     ReleaseTag = release.TagName,
                     ReleaseTime = release.PublishedAt.ToString("yyyy年MM月dd日 HH:mm:ss"),
-                    DownloadURL = asset.DownloadURL
+                    DownloadURL = release.TagName + "|" + asset.DownloadURL
                 });
             }
             BtnRefresh.IsEnabled = true;

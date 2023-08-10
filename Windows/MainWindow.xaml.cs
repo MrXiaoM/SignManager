@@ -202,6 +202,11 @@ namespace SignManager
                     file.Delete();
                 }
                 File.WriteAllBytes(Environment.CurrentDirectory + "\\plugins\\" + download.name, download.bytes);
+                MessageBox.Show("fix-protocol-version " + download.tag + " 安装完成");
+            }
+            else if (download.abort)
+            {
+                MessageBox.Show("下载已取消");
             }
         }
         private void BtnKFCFactoryConfig(object sender, RoutedEventArgs e)
@@ -260,6 +265,11 @@ namespace SignManager
                 }
                 File.Delete(temp);
                 RunCheck();
+                MessageBox.Show("unidbg-fetch-qsign " + download.tag + " 安装完成");
+            }
+            else if (download.abort)
+            {
+                MessageBox.Show("下载已取消");
             }
         }
 

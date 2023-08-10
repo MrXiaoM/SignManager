@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SignManager"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
-        MinWidth="450" MinHeight="260"
+        MinWidth="450" MinHeight="260" Closing="Window_Closing"
         Style="{StaticResource WindowDark}"
         Title="下载/更新" Height="260" Width="450" Icon="pack://application:,,,/window_icon.png">
     <Grid>
@@ -50,7 +50,7 @@
 
         <Grid Name="ProcessGrid" VerticalAlignment="Center" Margin="10" Background="#383838" Visibility="Hidden">
             <StackPanel Margin="10">
-                <TextBlock FontSize="24">正在下载</TextBlock>
+                <TextBlock x:Name="DownloadTitle" FontSize="24" Text="正在下载 "/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
