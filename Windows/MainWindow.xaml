@@ -31,12 +31,12 @@
                             确认协议版本是否有对应的协议。<LineBreak/>
                             若一致, 相关配置项将会<Run Foreground="#55B155">绿色</Run>高亮
                         </TextBlock>
-                        <TextBlock>签名服务 unidbg-fetch-qsign</TextBlock>
+                        <TextBlock><Run Name="StatusUnidbgFetchQSign" Foreground="#F55762" Text="● "/>签名服务 unidbg-fetch-qsign</TextBlock>
                         <StackPanel Margin="20,0,0,0">
                             <TextBlock>协议版本: <Run Foreground="#F55762" Name="TxtSignVer">未设置</Run></TextBlock>
                             <TextBlock>服务地址: <Run Foreground="#F55762" Name="TxtSignAddress">未设置</Run></TextBlock>
                         </StackPanel>
-                        <TextBlock>fix-protocol-version 签名服务连接配置:</TextBlock>
+                        <TextBlock><Run Name="StatusFixProtocolVersion" Foreground="#F55762" Text="● "/>fix-protocol-version 签名服务连接配置:</TextBlock>
                         <ListView x:Name="ListKFCFactoryInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" d:ItemsSource="{d:SampleData ItemCount=1}" IsHitTestVisible="False">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -49,7 +49,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <TextBlock>协议对应版本:</TextBlock>
+                        <TextBlock><Run Name="StatusProtocolInfo" Foreground="#F55762" Text="● "/>协议对应版本:</TextBlock>
                         <ListView x:Name="ListProtocolInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" d:ItemsSource="{d:SampleData ItemCount=2}" IsHitTestVisible="False">
                             <ListView.ItemTemplate>
                                 <DataTemplate>

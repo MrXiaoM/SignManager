@@ -117,6 +117,12 @@ namespace SignManager
 
         private void RunCheck()
         {
+            StatusUnidbgFetchQSign.Foreground = brushError;
+            StatusFixProtocolVersion.Foreground = brushError;
+            StatusProtocolInfo.Foreground = brushError;
+
+            bool fpvInstalled = false;
+
             var plugins = pluginsDir.GetFiles("fix-protocol-version-*.mirai2.jar");
             TxtFPVVer.Foreground = brushError;
             if (plugins.Length == 0)
@@ -127,6 +133,7 @@ namespace SignManager
             {
                 TxtFPVVer.Foreground = brushNormal;
                 TxtFPVVer.Text = plugins[0].Name.Substring(21, plugins[0].Name.Length - 32);
+                fpvInstalled = true;
             }
             else
             {
@@ -164,6 +171,8 @@ namespace SignManager
                     TxtSignAddress.Foreground = brushNormal;
                     TxtSignAddress.Text = $"http://{configQSign.Host}:{configQSign.Port}";
                     tempPort = configQSign.Port;
+
+                    StatusUnidbgFetchQSign.Foreground = brushNormal;
                 }
             }
             List<KFCFactoryInfo> kfcFactory = new();
@@ -189,6 +198,7 @@ namespace SignManager
                         && info.Address.EndsWith($":{tempPort}"))
                     {
                         info.AddressColor = brushNormal;
+                        if (fpvInstalled) StatusFixProtocolVersion.Foreground = brushNormal;
                     }
                     kfcFactory.Add(info);
                 }
@@ -211,7 +221,10 @@ namespace SignManager
                 protocols.Add(new() { Error = Visibility.Visible, ErrorMessage = "未找到配置" });
             }
             ListProtocolInfo.ItemsSource = protocols;
-
+            if (fpvInstalled && protocols.Find(it => it.VersionColor.Equals(brushNormal)) != null)
+            {
+                StatusProtocolInfo.Foreground = brushNormal;
+            }
             List<DirectoryInfo> txlibVersions = txlibDir.Exists ? new (txlibDir.GetDirectories("*.*.*")) : new();
             ComboQSignVer.ItemsSource = txlibVersions;
             ComboQSignVer.SelectedIndex = txlibVersions.Count > 0 ? 0 : -1;
