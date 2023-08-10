@@ -3,7 +3,7 @@
 
 # SignManager
 
-[![Stars](https://img.shields.io/github/stars/MrXiaoM/SignManager?label=%E6%A0%87%E6%98%9F&logo=github)](https://github.com/MrXiaoM/SignManager/stargazers) [![MiraiForum](https://img.shields.io/badge/%E5%B8%96%E5%AD%90-%E6%9D%A5%E8%87%AA%20MiraiForum-5195E5)](https://mirai.mamoe.net/topic/) [![Releases](https://img.shields.io/github/downloads/MrXiaoM/SignManager/total?label=%E4%B8%8B%E8%BD%BD%E9%87%8F&logo=github)](https://github.com/MrXiaoM/SignManager/releases)
+[![Stars](https://img.shields.io/github/stars/MrXiaoM/SignManager?label=%E6%A0%87%E6%98%9F&logo=github)](https://github.com/MrXiaoM/SignManager/stargazers) [![MiraiForum](https://img.shields.io/badge/%E5%B8%96%E5%AD%90-%E6%9D%A5%E8%87%AA%20MiraiForum-5195E5)](https://mirai.mamoe.net/topic/2421) [![Releases](https://img.shields.io/github/downloads/MrXiaoM/SignManager/total?label=%E4%B8%8B%E8%BD%BD%E9%87%8F&logo=github)](https://github.com/MrXiaoM/SignManager/releases)
 
 SignManager 是适用于 [mirai](https://github.com/mamoe/mirai) 平台的签名服务管理器
 
