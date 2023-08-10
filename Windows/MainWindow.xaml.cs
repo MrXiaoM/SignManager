@@ -39,20 +39,21 @@ namespace SignManager
             public Brush AddressColor { get; set; } = brushWarn;
         }
 
-        private FileInfo scriptCmd = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.cmd");
-        private FileInfo scriptShell = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.sh");
-        private DirectoryInfo pluginsDir = new(Environment.CurrentDirectory + "\\plugins");
-        private DirectoryInfo qsignDir = new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign");
-        private DirectoryInfo txlibDir = new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign\\txlib");
-        private static Brush brushNormal = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#55B155"));
-        private static Brush brushWarn = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4A0"));
-        private static Brush brushError = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#F55762"));
-        private List<GithubSource> githubSources = new()
+        internal static FileInfo scriptCmd = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.cmd");
+        internal static FileInfo scriptShell = new(Environment.CurrentDirectory + "\\start_unidbg-fetch-qsign.sh");
+        internal static DirectoryInfo pluginsDir = new(Environment.CurrentDirectory + "\\plugins");
+        internal static DirectoryInfo qsignDir = new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign");
+        internal static DirectoryInfo txlibDir = new(Environment.CurrentDirectory + "\\unidbg-fetch-qsign\\txlib");
+        internal static Brush brushNormal = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#55B155"));
+        internal static Brush brushWarn = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4A0"));
+        internal static Brush brushError = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#F55762"));
+        internal static List<GithubSource> githubSources = new()
         {
             new() { Name = "源站 github.com" },
             new() { Name = "ghproxy.com", UrlPrefix = "https://ghproxy.com/" },
             new() { Name = "github.moeyy.cn", UrlPrefix = "https://github.moeyy.cn/" },
         };
+
         public MainWindow()
         {
             InitializeComponent();

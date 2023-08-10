@@ -58,6 +58,12 @@ namespace SignManager
                 });
             }
             ListViewServices.ItemsSource = items;
+
+            List<DirectoryInfo> dirs = MainWindow.txlibDir.Exists ? new(MainWindow.txlibDir.GetDirectories("*.*.*")) : new();
+            List<string> txlibVersions = new List<string>();
+            foreach (var dir in dirs) txlibVersions.Add(dir.Name);
+            ComboQSignVer.ItemsSource = txlibVersions;
+            ComboQSignVer.SelectedIndex = txlibVersions.Count > 0 ? 0 : -1;
         }
 
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -66,12 +72,14 @@ namespace SignManager
                 TxtBaseUrlInfo, TxtBaseUrl,
                 TxtKeyInfo, TxtKey,
                 TxtServerIdKeyInfo, TxtServerIdKey,
-                TxtAuthKeyInfo, TxtAuthKey);
+                TxtAuthKeyInfo, TxtAuthKey,
+                BorderQSignConfig);
             if (ComboType.SelectedIndex == 0)
             {
                 SetVisibility(Visibility.Visible,
                     TxtBaseUrlInfo, TxtBaseUrl,
-                    TxtKeyInfo, TxtKey);
+                    TxtKeyInfo, TxtKey,
+                    BorderQSignConfig);
             }
             if (ComboType.SelectedIndex == 1)
             {
@@ -111,6 +119,8 @@ namespace SignManager
                 TxtServerIdKey.Text = "";
                 TxtAuthKey.Text = "";
                 ComboType.SelectedIndex = 0;
+                
+                ComboQSignVer.SelectedValue = item.Version;
             }
             else if (service is KFCFactoryConfig.MagicSignerGuide s1)
             {
@@ -242,6 +252,30 @@ namespace SignManager
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 btn.IsEnabled = true;
                 btn.Content = "保存";
+            }
+        }
+
+        private async void BtnReadFromQSign(object sender, RoutedEventArgs e)
+        {
+            if (ComboQSignVer.SelectedValue == null) return;
+            string version = (string) ComboQSignVer.SelectedValue;
+            string configFile = MainWindow.txlibDir.FullName + "\\" + version + "\\config.json";
+            var config = UnidbgFetchQSignConfig.Read(configFile);
+            if (config == null)
+            {
+                MessageBox.Show("找不到配置文件，或配置文件已损坏");
+                return;
+            }
+            if (sender is Button btn)
+            {
+                btn.IsEnabled = false;
+                btn.Content = "读取中...";
+                TxtBaseUrl.Text = "http://" + config.Host.Replace("0.0.0.0", "127.0.0.1") + ":" + config.Port;
+                TxtKey.Text = config.Key;
+                btn.Content = "读取完成!";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                btn.IsEnabled = true;
+                btn.Content = "从签名服务配置中读取...";
             }
         }
     }

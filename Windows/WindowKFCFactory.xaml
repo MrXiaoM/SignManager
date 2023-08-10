@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:SignManager"
         mc:Ignorable="d"
         Title="fix-protocol-version 对接服务配置 KFCFactory.json"
-        MinWidth="550" MinHeight="260"
-        Height="260" Width="550"
+        MinWidth="550" MinHeight="300"
+        Width="550" Height="300"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowDark}"
         Loaded="Window_Loaded" Icon="pack://application:,,,/window_icon.png">
@@ -51,7 +51,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="15"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -93,24 +94,42 @@
                             <RowDefinition Height="5"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">签名服务类型:</TextBlock>
                         <ComboBox Grid.Column="2" Grid.Row="0" Name="ComboType" SelectionChanged="ComboType_SelectionChanged">
                             <ComboBoxItem Content="unidbg-fetch-qsign"/>
                             <ComboBoxItem Content="magic-signer"/>
-                            <ComboBoxItem Content="TLV544Provider (8.8.xx)"/>
+                            <ComboBoxItem Content="TLV544Provider (8.8.##)"/>
                         </ComboBox>
                         
                         <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Name="TxtBaseUrlInfo">服务地址:</TextBlock>
                         <TextBox Grid.Column="2" Grid.Row="2" Name="TxtBaseUrl"/>
 
+
                         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Name="TxtKeyInfo">[U]连接密钥:</TextBlock>
                         <TextBox Grid.Column="2" Grid.Row="4" Name="TxtKey"/>
+                        
+                        
                         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Name="TxtServerIdKeyInfo">[M]服务端身份密钥:</TextBlock>
                         <TextBox Grid.Column="2" Grid.Row="4" Name="TxtServerIdKey"/>
                         <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Name="TxtAuthKeyInfo">[M]客户端验证密钥:</TextBlock>
                         <TextBox Grid.Column="2" Grid.Row="6" Name="TxtAuthKey"/>
                     </Grid>
+                    <Border Grid.Row="3" VerticalAlignment="Top" Padding="10" BorderThickness="1" BorderBrush="#ABADB3" Name="BorderQSignConfig">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock VerticalAlignment="Center">读取配置:</TextBlock>
+                            <ComboBox Grid.Column="2" Name="ComboQSignVer"/>
+                            <Button Grid.Column="4" Padding="10,2,10,2" Click="BtnReadFromQSign">从签名服务配置中读取...</Button>
+                        </Grid>
+                    </Border>
                 </Grid>
             </Grid>
         </Border>
