@@ -197,7 +197,14 @@ namespace SignManager
                         && info.Address == address)
                     {
                         info.AddressColor = brushNormal;
-                        if (fpvInstalled) StatusFixProtocolVersion.Foreground = brushNormal;
+                        if (fpvInstalled)
+                        {
+                            StatusFixProtocolVersion.Foreground = brushNormal;
+                        }
+                        else
+                        {
+                            StatusFixProtocolVersion.Foreground = brushWarn;
+                        }
                     }
                     kfcFactory.Add(info);
                 }
@@ -220,9 +227,16 @@ namespace SignManager
                 protocols.Add(new() { Error = Visibility.Visible, ErrorMessage = "未找到配置" });
             }
             ListProtocolInfo.ItemsSource = protocols;
-            if (fpvInstalled && protocols.Find(it => it.VersionColor.Equals(brushNormal)) != null)
+            if (protocols.Find(it => it.VersionColor.Equals(brushNormal)) != null)
             {
-                StatusProtocolInfo.Foreground = brushNormal;
+                if (fpvInstalled)
+                {
+                    StatusProtocolInfo.Foreground = brushNormal;
+                }
+                else
+                {
+                    StatusProtocolInfo.Foreground = brushWarn;
+                }
             }
             List<DirectoryInfo> txlibVersions = txlibDir.Exists ? new (txlibDir.GetDirectories("*.*.*")) : new();
             ComboQSignVer.ItemsSource = txlibVersions;
