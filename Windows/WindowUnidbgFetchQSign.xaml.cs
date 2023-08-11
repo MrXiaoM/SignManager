@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace SignManager
 {
@@ -55,5 +56,25 @@ namespace SignManager
             }
         }
 
+        private void ModifyProtocol_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox cb)
+            {
+                if (MessageBox.Show(@"非专业人士请勿修改该选项!
+乱改可能会导致你的账号被冻结!
+是否继续修改?", "警告", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    cb.IsChecked = false;
+                }
+                else
+                {
+                    TxtQUA.IsEnabled = TxtVersion.IsEnabled = TxtCode.IsEnabled = true;
+                }
+            }
+        }
+        private void ModifyProtocol_UnChecked(object sender, RoutedEventArgs e)
+        {
+            TxtQUA.IsEnabled = TxtVersion.IsEnabled = TxtCode.IsEnabled = false;
+        }
     }
 }
