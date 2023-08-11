@@ -320,7 +320,8 @@ namespace SignManager
         }
         private void BtnUpdateProtocol(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("制作中，敬请期待");
+            new WindowDownloadProtocol(ProcessAssetURL).ShowDialog();
+            RunCheck();
         }
         private async void BtnUpdateQSign(object sender, RoutedEventArgs e)
         {
