@@ -262,7 +262,7 @@ namespace SignManager
 
         private string ProcessAssetURL(string download)
         {
-            if (download.StartsWith("https://github.com"))
+            if (download.StartsWith("https://github.com/") || download.StartsWith("https://raw.githubusercontent.com/"))
             {
                 return githubSources[ComboGithubSource.SelectedIndex].UrlPrefix + download;
             }

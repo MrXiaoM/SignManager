@@ -12,13 +12,15 @@ namespace SignManager
         public string Name { get; set; }
         public string Path { get; set; }
         public string Type { get; set; }
+        public string DownloadURL { get; set; }
         public static Content FromJson(JsonObject obj)
         {
             return new()
             {
                 Name = obj["name"].ToString(),
                 Path = obj["path"].ToString(),
-                Type = obj["type"].ToString()
+                Type = obj["type"].ToString(),
+                DownloadURL = obj["download_url"].IsNull() ? "" : obj["download_url"].ToString(),
             };
         }
     }
