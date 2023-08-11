@@ -394,6 +394,7 @@ if %EL% NEQ 0 (
             File.WriteAllText(scriptShell.FullName, @$"TXLIB_VERSION={version}
 java -cp unidbg-fetch-qsign/lib/* MainKt --basePath=unidbg-fetch-qsign/txlib/$TXLIB_VERSION
 ", new UTF8Encoding(false));
+            RunCheck();
             MessageBox.Show("已保存到:\nstart_unidbg-fetch-qsign.cmd (适用于 Windows)\nstart_unidbg-fetch-qsign.sh (适用于 Linux/macOS)", "保存成功");
         }
 
