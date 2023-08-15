@@ -146,7 +146,10 @@ namespace SignManager
             if (scriptShell.Exists)
             {
                 string s = File.ReadAllLines(scriptShell.FullName, Encoding.UTF8)[0];
-                scriptVersion = s.Substring(s.IndexOf('=') + 1);
+                if (s.Contains("/txlib/"))
+                {
+                    scriptVersion = s.Substring(s.IndexOf("/txlib/") + 7);
+                }
             }
             else if (scriptCmd.Exists) {
                 string s = File.ReadAllLines(scriptShell.FullName, Encoding.UTF8)[1];
@@ -392,8 +395,7 @@ if %EL% NEQ 0 (
     pause
 )
 ", new UTF8Encoding(false));
-            File.WriteAllText(scriptShell.FullName, @$"TXLIB_VERSION={version}
-java -cp unidbg-fetch-qsign/lib/* MainKt --basePath=unidbg-fetch-qsign/txlib/$TXLIB_VERSION
+            File.WriteAllText(scriptShell.FullName, @$"java -cp ""$CLASSPATH:./unidbg-fetch-qsign/lib/*"" MainKt --basePath=unidbg-fetch-qsign/txlib/{version}
 ", new UTF8Encoding(false));
             RunCheck();
             MessageBox.Show("已保存到:\nstart_unidbg-fetch-qsign.cmd (适用于 Windows)\nstart_unidbg-fetch-qsign.sh (适用于 Linux/macOS)", "保存成功");
