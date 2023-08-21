@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using CsharpJson;
+using System.Net.Http;
 
 namespace SignManager
 {
@@ -116,7 +117,7 @@ namespace SignManager
             Activate();
         }
 
-        private void RunCheck()
+        private async Task RunCheck()
         {
             var txlib = txlibDir;
 
@@ -157,6 +158,8 @@ namespace SignManager
                 scriptVersion = s.Substring(s.IndexOf('=') + 1);
             }
             UnidbgFetchQSignConfig? configQSign = null;
+            TxtSignStatus.Foreground = brushWarn;
+            TxtSignStatus.Text = "检查中...";
             if (scriptVersion.Length == 0)
             {
                 TxtSignVer.Foreground = TxtSignAddress.Foreground = brushError;
@@ -176,7 +179,6 @@ namespace SignManager
                 {
                     TxtSignAddress.Foreground = brushNormal;
                     TxtSignAddress.Text = $"http://{configQSign.Host}:{configQSign.Port}";
-
                     StatusUnidbgFetchQSign.Foreground = brushNormal;
                 }
             }
@@ -248,6 +250,21 @@ namespace SignManager
             List<DirectoryInfo> txlibVersions = txlib.Exists ? new (txlib.GetDirectories("*.*.*")) : new();
             ComboQSignVer.ItemsSource = txlibVersions;
             ComboQSignVer.SelectedIndex = txlibVersions.Count > 0 ? 0 : -1;
+            bool remoteSuccess = false;
+            try
+            {
+                using var http = new HttpClient();
+                var content = await http.GetStringAsync(TxtSignAddress.Text.Replace("http://0.0.0.0", "http://127.0.0.1"));
+                TxtSignStatus.Foreground = brushNormal;
+                TxtSignStatus.Text = "运行中 [ 未知版本 ]";
+                remoteSuccess = true;
+                var qsignRemoteVersion = JsonDocument.FromString(content).Object["data"].ToObject()["version"].ToString();
+                TxtSignStatus.Text = $"运行中 [ {qsignRemoteVersion} ]";
+            }
+            catch
+            {
+                if (!remoteSuccess) TxtSignStatus.Text = "未运行";
+            }
         }
 
         private ProtocolInfo? getProtocolVersion(string protocol, string highlineVersion)
@@ -287,14 +304,14 @@ namespace SignManager
             {
                 btn.IsEnabled = false;
                 btn.Content = "正在检查";
-                RunCheck();
+                await RunCheck();
                 btn.Content = "检查完成!";
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 btn.IsEnabled = true;
                 btn.Content = "重新检查";
             }
         }
-        private void BtnUpdateFPV(object sender, RoutedEventArgs e)
+        private async void BtnUpdateFPV(object sender, RoutedEventArgs e)
         {
             var download = new WindowDownload("cssxsh", "fix-protocol-version",
                 "下载/更新 cssxsh/fix-protocol-version",
@@ -309,7 +326,7 @@ namespace SignManager
                     file.Delete();
                 }
                 File.WriteAllBytes(Environment.CurrentDirectory + "\\plugins\\" + download.name, download.bytes);
-                RunCheck();
+                await RunCheck();
                 MessageBox.Show("fix-protocol-version " + download.tag + " 安装完成");
             }
             else if (download.abort)
@@ -317,15 +334,15 @@ namespace SignManager
                 MessageBox.Show("下载已取消");
             }
         }
-        private void BtnKFCFactoryConfig(object sender, RoutedEventArgs e)
+        private async void BtnKFCFactoryConfig(object sender, RoutedEventArgs e)
         {
             new WindowKFCFactory().ShowDialog();
-            RunCheck();
+            await RunCheck();
         }
-        private void BtnUpdateProtocol(object sender, RoutedEventArgs e)
+        private async void BtnUpdateProtocol(object sender, RoutedEventArgs e)
         {
             new WindowDownloadProtocol(ProcessAssetURL).ShowDialog();
-            RunCheck();
+            await RunCheck();
         }
         private async void BtnUpdateQSign(object sender, RoutedEventArgs e)
         {
@@ -373,7 +390,7 @@ namespace SignManager
                     }
                 }
                 File.Delete(temp);
-                RunCheck();
+                await RunCheck();
                 MessageBox.Show("unidbg-fetch-qsign " + download.tag + " 安装完成");
             }
             else if (download.abort)
@@ -382,7 +399,7 @@ namespace SignManager
             }
         }
 
-        private void BtnGenQSignScripts(object sender, RoutedEventArgs e)
+        private async void BtnGenQSignScripts(object sender, RoutedEventArgs e)
         {
             if (ComboQSignVer.SelectedIndex < 0) return;
             string version = ((List<DirectoryInfo>)ComboQSignVer.ItemsSource)[ComboQSignVer.SelectedIndex].Name;
@@ -398,11 +415,11 @@ if %EL% NEQ 0 (
 ", new UTF8Encoding(false));
             File.WriteAllText(scriptShell.FullName, @$"java -cp ""$CLASSPATH:./unidbg-fetch-qsign/lib/*"" MainKt --basePath=unidbg-fetch-qsign/txlib/{version}
 ", new UTF8Encoding(false));
-            RunCheck();
+            await RunCheck();
             MessageBox.Show("已保存到:\nstart_unidbg-fetch-qsign.cmd (适用于 Windows)\nstart_unidbg-fetch-qsign.sh (适用于 Linux/macOS)", "保存成功");
         }
 
-        private void BtnQSignConfig(object sender, RoutedEventArgs e)
+        private async void BtnQSignConfig(object sender, RoutedEventArgs e)
         {
             if (ComboQSignVer.SelectedIndex < 0) return;
             string version = ((List<DirectoryInfo>)ComboQSignVer.ItemsSource)[ComboQSignVer.SelectedIndex].Name;
@@ -415,7 +432,7 @@ if %EL% NEQ 0 (
             else
             {
                 new WindowUnidbgFetchQSign(configFile, config, version).ShowDialog();
-                RunCheck();
+                await RunCheck();
             }
         }
 

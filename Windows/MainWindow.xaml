@@ -35,6 +35,7 @@
                         <StackPanel Margin="20,0,0,0">
                             <TextBlock>协议版本: <Run Foreground="#F55762" Name="TxtSignVer">未设置</Run></TextBlock>
                             <TextBlock>服务地址: <Run Foreground="#F55762" Name="TxtSignAddress">未设置</Run></TextBlock>
+                            <TextBlock>正在运行: <Run Foreground="#FFE4A0" Name="TxtSignStatus">未运行</Run></TextBlock>
                         </StackPanel>
                         <TextBlock><Run Name="StatusFixProtocolVersion" Foreground="#F55762" Text="● "/>fix-protocol-version 签名服务连接配置:</TextBlock>
                         <ListView x:Name="ListKFCFactoryInfo" BorderThickness="0" Background="Transparent" Foreground="#DDDDDD" d:ItemsSource="{d:SampleData ItemCount=1}" IsHitTestVisible="False">
