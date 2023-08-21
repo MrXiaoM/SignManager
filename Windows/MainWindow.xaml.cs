@@ -151,8 +151,9 @@ namespace SignManager
                     scriptVersion = s.Substring(s.IndexOf("/txlib/") + 7);
                 }
             }
-            else if (scriptCmd.Exists) {
-                string s = File.ReadAllLines(scriptShell.FullName, Encoding.UTF8)[1];
+            else if (scriptCmd.Exists)
+            {
+                string s = File.ReadAllLines(scriptCmd.FullName, Encoding.UTF8)[1];
                 scriptVersion = s.Substring(s.IndexOf('=') + 1);
             }
             UnidbgFetchQSignConfig? configQSign = null;
